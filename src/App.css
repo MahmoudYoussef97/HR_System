@@ -1,13 +1,12 @@
 .dashboard {
   background-color: rgb(48, 48, 48);
-  height: 800px;
+  height: 1000px;
   background-position: fixed;
   box-shadow: 4px 4px 17px 4px rgba(204, 204, 204, 1);
 }
 
 .info-body {
   background-color: rgb(39, 39, 39);
-  height: 800px;
 }
 .info-body h1 {
   color: white;
