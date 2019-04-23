@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./AddPeople.css";
-import { getEmployees, addEmployee } from "../../services/employeeServices";
+import { updateEmployee, addEmployee } from "../../services/employeeServices";
 
 class AddPeople extends Component {
   state = {
@@ -14,18 +14,35 @@ class AddPeople extends Component {
     }
   };
 
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      this.state.employee = this.props.employee;
+      this.state.employee.rePassword = this.props.employee.password;
+      const employee = { ...this.state.employee };
+      this.setState({ employee });
+    }
+  }
   handleSubmit = async e => {
     e.preventDefault();
-    this.props.handleSubmitClick(this.state.employee);
-    await addEmployee(this.state.employee);
-    const employee = {
-      name: "",
-      email: "",
-      password: "",
-      rePassword: "",
-      phone: ""
-    };
-    this.setState({ employee });
+    if (this.props.match.params.id) {
+      const employee = { ...this.state.employee };
+      this.props.handleUpdateView(employee, this.props.index);
+      await updateEmployee(employee, this.props.employee.email);
+      this.setState({ employee });
+      this.props.history.replace("/");
+    } else {
+      this.props.handleSubmitClick(this.state.employee);
+      await addEmployee(this.state.employee);
+      const employee = {
+        name: "",
+        email: "",
+        password: "",
+        rePassword: "",
+        phone: ""
+      };
+      this.setState({ employee });
+      this.props.history.push("/");
+    }
   };
 
   handleChange = e => {

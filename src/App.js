@@ -13,7 +13,6 @@ class App extends Component {
       id: "",
       aria: "",
       section: "Employees"
-<<<<<<< HEAD
     },
     data: [],
     employee: {
@@ -22,32 +21,9 @@ class App extends Component {
       password: "",
       rePassword: "",
       phone: ""
-    }
-||||||| merged common ancestors
-    }
-=======
     },
-    data: [],
-    columns: [
-      { path: "id", label: "#" },
-      { path: "name", label: "First" },
-      { path: "username", label: "Last" },
-      { path: "email", label: "Handle" },
-      {
-        key: "delete",
-        content: employee => (
-          <button
-            onClick={() => this.handleDelete(employee)}
-            className="btn btn-danger btn-sm"
-          >
-            Delete
-          </button>
-        )
-      }
-    ]
->>>>>>> cd8599dcb38db6b8823920709b439d3a936dddf5
+    index: ""
   };
-<<<<<<< HEAD
 
   // Get Request -- Completed
   async componentDidMount() {
@@ -61,30 +37,25 @@ class App extends Component {
     this.setState({ data });
     await deleteEmployee(employee);
   };
-  handleUpdate = async e => {
-    console.log("object");
+  handleUpdate = employee => {
+    const data = [...this.state.data];
+    const index = data.indexOf(employee);
+    data[index] = { ...data[index] };
+    this.state.employee = data[index];
+    this.state.index = index;
+  };
+
+  handleUpdateView = (employee, index) => {
+    const data = [...this.state.data];
+    data[index] = { ...employee };
+    this.setState({ data });
   };
 
   handleSubmitClick = employee => {
     const data = [employee, ...this.state.data];
     this.setState({ data });
   };
-||||||| merged common ancestors
-=======
 
-  async componentDidMount() {
-    const { data } = await getEmployees();
-    this.setState({ data });
-  }
-
-  handleDelete = employee => {
-    const data = this.state.data.filter(e => e.id !== employee.id);
-    this.setState({ data });
-
-    deleteEmployee(employee.id);
-  };
-
->>>>>>> cd8599dcb38db6b8823920709b439d3a936dddf5
   onMouseClick = e => {
     const sec = e.target.id.split("-");
     const bodyData = { ...this.state.bodyData };
@@ -108,26 +79,15 @@ class App extends Component {
                 <Route
                   path="/"
                   exact
-<<<<<<< HEAD
                   render={props => (
                     <Body
                       data={this.state.data}
                       handleDelete={this.handleDelete}
+                      handleUpdate={this.handleUpdate}
                       bodyInfo={this.state.bodyData}
                       {...props}
                     />
                   )}
-||||||| merged common ancestors
-                  component={() => <Body bodyInfo={this.state.bodyData} />}
-=======
-                  component={() => (
-                    <Body
-                      data={this.state.data}
-                      columns={this.state.columns}
-                      bodyInfo={this.state.bodyData}
-                    />
-                  )}
->>>>>>> cd8599dcb38db6b8823920709b439d3a936dddf5
                 />
                 <Route
                   path="/AddPeople"
@@ -135,6 +95,18 @@ class App extends Component {
                     <AddPeople
                       bodyInfo={this.state.bodyData}
                       handleSubmitClick={this.handleSubmitClick}
+                      {...props}
+                    />
+                  )}
+                />
+                <Route
+                  path="/Update/:id"
+                  render={props => (
+                    <AddPeople
+                      bodyInfo={this.state.bodyData}
+                      employee={this.state.employee}
+                      index={this.state.index}
+                      handleUpdateView={this.handleUpdateView}
                       {...props}
                     />
                   )}
