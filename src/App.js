@@ -37,22 +37,12 @@ class App extends Component {
     this.setState({ data });
     await deleteEmployee(employee);
   };
+
   handleUpdate = employee => {
     const data = [...this.state.data];
     const index = data.indexOf(employee);
-    data[index] = { ...data[index] };
-    this.state.employee = data[index];
-    this.state.index = index;
-  };
-
-  handleUpdateView = (employee, index) => {
-    const data = [...this.state.data];
     data[index] = { ...employee };
-    this.setState({ data });
-  };
-
-  handleSubmitClick = employee => {
-    const data = [employee, ...this.state.data];
+    this.setState({ employee });
     this.setState({ data });
   };
 

@@ -1,22 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import _ from "lodash";
 import "./Body.css";
-import { deleteEmployee } from "../../services/employeeServices";
 
 class Body extends Component {
-  /*
-  renderCell = (item, column) => {
-    if (column.content) return column.content(item);
-
-    return _.get(item, column.path);
-  };
-
-  createKey = (item, column) => {
-    return item._id + column.path;
-  };
-  */
-
   render() {
     const { data, bodyInfo } = this.props;
     return (
@@ -46,7 +32,7 @@ class Body extends Component {
                     <td>{item.email}</td>
                     <td>{item.phone}</td>
                     <td>
-                      <Link to={`/Update/${item.email}`}>
+                      <Link to={`/Update/${item.name}`}>
                         <button
                           onClick={() => this.props.handleUpdate(item)}
                           className="btn btn-info btn-sm"

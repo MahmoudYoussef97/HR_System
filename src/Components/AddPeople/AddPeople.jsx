@@ -16,22 +16,21 @@ class AddPeople extends Component {
 
   componentDidMount() {
     if (this.props.match.params.id) {
-      this.state.employee = this.props.employee;
-      this.state.employee.rePassword = this.props.employee.password;
-      const employee = { ...this.state.employee };
+      console.log(this.props.employee);
+      const employee = this.props.employee;
+      employee.rePassword = employee.password;
       this.setState({ employee });
     }
   }
+
   handleSubmit = async e => {
     e.preventDefault();
     if (this.props.match.params.id) {
       const employee = { ...this.state.employee };
-      this.props.handleUpdateView(employee, this.props.index);
       await updateEmployee(employee, this.props.employee.email);
       this.setState({ employee });
-      this.props.history.replace("/");
+      window.location = "/";
     } else {
-      this.props.handleSubmitClick(this.state.employee);
       await addEmployee(this.state.employee);
       const employee = {
         name: "",
@@ -41,7 +40,7 @@ class AddPeople extends Component {
         phone: ""
       };
       this.setState({ employee });
-      this.props.history.push("/");
+      window.location = "/";
     }
   };
 
