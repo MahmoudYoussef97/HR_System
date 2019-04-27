@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Joi from "joi-browser";
 import "./AddPeople.css";
 import { updateEmployee, addEmployee } from "../../services/employeeServices";
 
@@ -11,27 +12,87 @@ class AddPeople extends Component {
       password: "",
       rePassword: "",
       phone: ""
+    },
+    errors: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: ""
     }
+  };
+  schema = {
+    name: Joi.string()
+      .min(5)
+      .max(50)
+      .required()
+      .label("Username"),
+    email: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+      .email()
+      .label("Email"),
+    password: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+      .label("Password"),
+    rePassword: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+      .label("Re-Password"),
+    phone: Joi.string()
+      .min(7)
+      .required()
+      .label("Phone")
+  };
+
+  validateProperty = ({ name, value }) => {
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
+  };
+
+  validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(this.state.employee, this.schema, options);
+    if (!error) return null;
+
+    const errors = {};
+    for (let item of error.details) errors[item.path[0]] = item.message;
+    return errors;
   };
 
   componentDidMount() {
     if (this.props.match.params.id) {
-      console.log(this.props.employee);
-      const employee = this.props.employee;
-      employee.rePassword = employee.password;
+      const employee = {
+        name: this.props.employee.name,
+        email: this.props.employee.email,
+        password: this.props.employee.password,
+        rePassword: this.props.employee.password,
+        phone: this.props.employee.phone
+      };
       this.setState({ employee });
     }
   }
 
   handleSubmit = async e => {
     e.preventDefault();
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+    if (errors) return;
     if (this.props.match.params.id) {
       const employee = { ...this.state.employee };
-      await updateEmployee(employee, this.props.employee.email);
-      this.setState({ employee });
-      window.location = "/";
+      const err = await updateEmployee(employee, this.props.employee.email);
+      if (!err) {
+        this.setState({ employee });
+        window.location = "/";
+      }
     } else {
-      await addEmployee(this.state.employee);
+      const err = await addEmployee(this.state.employee);
       const employee = {
         name: "",
         email: "",
@@ -39,15 +100,22 @@ class AddPeople extends Component {
         rePassword: "",
         phone: ""
       };
-      this.setState({ employee });
-      window.location = "/";
+      if (!err) {
+        this.setState({ employee });
+        window.location = "/";
+      }
     }
   };
 
   handleChange = e => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(e.currentTarget);
+    if (errorMessage) errors[e.currentTarget.name] = errorMessage;
+    else delete errors[e.currentTarget.name];
+
     const employee = { ...this.state.employee };
     employee[e.currentTarget.name] = e.currentTarget.value;
-    this.setState({ employee });
+    this.setState({ employee, errors });
   };
 
   render() {
@@ -66,7 +134,11 @@ class AddPeople extends Component {
             name="name"
             onChange={this.handleChange}
             value={this.state.employee.name}
+            error={this.state.errors.name}
           />
+          {this.state.errors.name && (
+            <div className="alert  alert-danger">{this.state.errors.name}</div>
+          )}
           <label htmlFor="email">{bodyInfo.section} Email</label>
           <input
             placeholder="Email"
@@ -76,7 +148,11 @@ class AddPeople extends Component {
             name="email"
             onChange={this.handleChange}
             value={this.state.employee.email}
+            error={this.state.errors.email}
           />
+          {this.state.errors.email && (
+            <div className="alert alert-danger">{this.state.errors.email}</div>
+          )}
           <label htmlFor="password">{bodyInfo.section} Password</label>
           <input
             placeholder="Password"
@@ -86,7 +162,13 @@ class AddPeople extends Component {
             name="password"
             onChange={this.handleChange}
             value={this.state.employee.password}
+            error={this.state.errors.password}
           />
+          {this.state.errors.password && (
+            <div className="alert alert-danger">
+              {this.state.errors.password}
+            </div>
+          )}
           <label htmlFor="rePassword">Re-Password</label>
           <input
             placeholder="Re-Password"
@@ -96,7 +178,13 @@ class AddPeople extends Component {
             name="rePassword"
             onChange={this.handleChange}
             value={this.state.employee.rePassword}
+            error={this.state.errors.rePassword}
           />
+          {this.state.errors.rePassword && (
+            <div className="alert alert-danger">
+              {this.state.errors.rePassword}
+            </div>
+          )}
           <label htmlFor="phone">Phone</label>
           <input
             placeholder="Phone"
@@ -106,7 +194,11 @@ class AddPeople extends Component {
             name="phone"
             onChange={this.handleChange}
             value={this.state.employee.phone}
+            error={this.state.errors.phone}
           />
+          {this.state.errors.phone && (
+            <div className="alert alert-danger">{this.state.errors.phone}</div>
+          )}
           <button className="btn btn-warning px-4">Submit</button>
         </form>
       </div>

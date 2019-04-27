@@ -1,7 +1,5 @@
 import http from "./httpServices";
-import {
-  apiUrl
-} from "../config.json";
+import { apiUrl } from "../config.json";
 
 function employeeUrl(mail) {
   return `${apiUrl}/${mail}`;
@@ -24,18 +22,29 @@ export function updateEmployee(employee, mail) {
     rePassword: employee.rePassword,
     phone: employee.phone
   };
-  return http.put(apiUrl, emp);
+  return http
+    .put(apiUrl, emp)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      alert(error.response.data);
+      return error.response.data;
+    });
 }
 
 export function addEmployee(emp) {
-  console.log(emp);
-  return http.post(apiUrl, emp);
+  return http
+    .post(apiUrl, emp)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      alert(error.response.data);
+      return error.response.data;
+    });
 }
 
 export function deleteEmployee(employeeMail) {
-  return http.delete(apiUrl, {
-    data: {
-      email: employeeMail
-    }
-  });
+  return http.delete(apiUrl, { data: { email: employeeMail } });
 }

@@ -4,6 +4,9 @@
 .add-people input {
   max-width: 500px;
 }
+.alert {
+  max-width: 500px;
+}
 
 .add-people button {
   background-color: orange !important;

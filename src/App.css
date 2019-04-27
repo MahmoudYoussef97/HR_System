@@ -1,7 +1,3 @@
-* {
-  overflow: ;
-}
-
 .dashboard {
   background-color: rgb(48, 48, 48);
   height: 1000px;
@@ -12,7 +8,6 @@
 .info-body {
   background-color: rgb(39, 39, 39);
 }
-
 .info-body h1 {
   color: white;
 }

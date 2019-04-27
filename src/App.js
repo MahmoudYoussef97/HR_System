@@ -8,6 +8,7 @@ import { getEmployees, deleteEmployee } from "./services/employeeServices";
 import "./App.css";
 import Particles from "react-particles-js";
 import { loginUser } from "./services/loginServices";
+
 class App extends Component {
   state = {
     bodyData: {
@@ -23,7 +24,6 @@ class App extends Component {
       rePassword: "",
       phone: ""
     },
-    index: "",
     login: {
       email: "",
       password: ""
@@ -33,45 +33,31 @@ class App extends Component {
   // Get Request -- Completed
   async componentDidMount() {
     const { data } = await getEmployees();
-    this.setState({
-      data
-    });
+    this.setState({ data });
   }
 
   // Delete Request -- Completed
   handleDelete = async employee => {
     const data = this.state.data.filter(e => e.email !== employee);
-    this.setState({
-      data
-    });
+    this.setState({ data });
     await deleteEmployee(employee);
   };
 
   handleUpdate = employee => {
     const data = [...this.state.data];
     const index = data.indexOf(employee);
-    data[index] = {
-      ...employee
-    };
-    this.setState({
-      employee
-    });
-    this.setState({
-      data
-    });
+    data[index] = { ...employee };
+    this.setState({ employee });
+    this.setState({ data });
   };
 
   onMouseClick = e => {
     const sec = e.target.id.split("-");
-    const bodyData = {
-      ...this.state.bodyData
-    };
+    const bodyData = { ...this.state.bodyData };
     bodyData.id = `v-pills-${sec[2]}`;
     bodyData.aria = `v-pills-${sec[2]}-tab`;
     bodyData.section = sec[2];
-    this.setState({
-      bodyData
-    });
+    this.setState({ bodyData });
   };
 
   handleChange = e => {
