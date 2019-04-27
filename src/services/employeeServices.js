@@ -1,5 +1,7 @@
 import http from "./httpServices";
-import { apiUrl } from "../config.json";
+import {
+  apiUrl
+} from "../config.json";
 
 function employeeUrl(mail) {
   return `${apiUrl}/${mail}`;
@@ -31,5 +33,9 @@ export function addEmployee(emp) {
 }
 
 export function deleteEmployee(employeeMail) {
-  return http.delete(apiUrl, { data: { email: employeeMail } });
+  return http.delete(apiUrl, {
+    data: {
+      email: employeeMail
+    }
+  });
 }
