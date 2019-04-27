@@ -23,18 +23,11 @@ class App extends Component {
       password: "",
       rePassword: "",
       phone: ""
-<<<<<<< HEAD
     },
     login: {
       email: "",
       password: ""
     }
-||||||| merged common ancestors
-    },
-    index: ""
-=======
-    }
->>>>>>> 859059698d0cd95143459a1060389b0a14d08243
   };
 
   // Get Request -- Completed
@@ -165,61 +158,9 @@ class App extends Component {
                       handleUpdate={this.handleUpdate}
                       bodyInfo={this.state.bodyData}
                       {...props}
-<<<<<<< HEAD
                     />{" "}
                   </div>{" "}
                 </div>{" "}
-||||||| merged common ancestors
-                    />
-                  )}
-                />
-                <Route
-                  path="/AddPeople"
-                  render={props => (
-                    <AddPeople
-                      bodyInfo={this.state.bodyData}
-                      handleSubmitClick={this.handleSubmitClick}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  path="/Update/:id"
-                  render={props => (
-                    <AddPeople
-                      bodyInfo={this.state.bodyData}
-                      employee={this.state.employee}
-                      index={this.state.index}
-                      handleUpdateView={this.handleUpdateView}
-                      {...props}
-                    />
-                  )}
-                />
-=======
-                    />
-                  )}
-                />
-                <Route
-                  path="/AddPeople"
-                  render={props => (
-                    <AddPeople
-                      bodyInfo={this.state.bodyData}
-                      handleSubmitClick={this.handleSubmitClick}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  path="/Update/:id"
-                  render={props => (
-                    <AddPeople
-                      bodyInfo={this.state.bodyData}
-                      employee={this.state.employee}
-                      {...props}
-                    />
-                  )}
-                />
->>>>>>> 859059698d0cd95143459a1060389b0a14d08243
               </div>
             )}
           />{" "}
