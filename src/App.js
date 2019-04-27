@@ -21,8 +21,7 @@ class App extends Component {
       password: "",
       rePassword: "",
       phone: ""
-    },
-    index: ""
+    }
   };
 
   // Get Request -- Completed
@@ -95,8 +94,6 @@ class App extends Component {
                     <AddPeople
                       bodyInfo={this.state.bodyData}
                       employee={this.state.employee}
-                      index={this.state.index}
-                      handleUpdateView={this.handleUpdateView}
                       {...props}
                     />
                   )}
