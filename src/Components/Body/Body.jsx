@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { getEmployees } from "../../services/employeeServices";
 import "./Body.css";
 
 class Body extends Component {
+  state = {};
+
   render() {
     const { data, bodyInfo } = this.props;
     return (
       <React.Fragment>
         <div className="body-section">
-          <div className="section-title">
-            <h1 className="text-center pt-3">{bodyInfo.section} Section</h1>
+          <div className="section-title pl-4">
+            <h1 className="text-center pt-5">{bodyInfo.section} Section</h1>
           </div>
           <Link to="/AddPeople" className="btn btn-warning add-button">
             Add {bodyInfo.section}

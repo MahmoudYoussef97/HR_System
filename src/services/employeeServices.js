@@ -5,8 +5,8 @@ function employeeUrl(mail) {
   return `${apiUrl}/${mail}`;
 }
 
-export function getEmployees() {
-  return http.get(apiUrl);
+export function getEmployees(jwt) {
+  return http.get(apiUrl, { headers: { "x-auth-token": jwt } });
 }
 
 export function getEmployee(employeeMail) {

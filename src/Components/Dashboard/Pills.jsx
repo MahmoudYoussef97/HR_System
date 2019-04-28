@@ -14,7 +14,7 @@ const Pills = props => {
         <Link
           className="nav-link"
           id="v-pills-Employee-tab"
-          to="/"
+          to="/profile"
           onClick={props.onClickMe}
         >
           Employee
@@ -22,7 +22,7 @@ const Pills = props => {
         <Link
           className="nav-link"
           id="v-pills-Manager-tab"
-          to="/"
+          to="/profile"
           onClick={props.onClickMe}
         >
           Manager
@@ -30,7 +30,7 @@ const Pills = props => {
         <Link
           className="nav-link"
           id="v-pills-HR-tab"
-          to="/"
+          to="/profile"
           onClick={props.onClickMe}
         >
           HR
@@ -38,7 +38,7 @@ const Pills = props => {
         <Link
           className="nav-link"
           id="v-pills-CEO-tab"
-          to="/"
+          to="/profile"
           onClick={props.onClickMe}
         >
           CEO

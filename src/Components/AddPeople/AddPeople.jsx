@@ -11,14 +11,16 @@ class AddPeople extends Component {
       email: "",
       password: "",
       rePassword: "",
-      phone: ""
+      phone: "",
+      role: ""
     },
     errors: {
       name: "",
       email: "",
       password: "",
       rePassword: "",
-      phone: ""
+      phone: "",
+      role: ""
     }
   };
   schema = {
@@ -46,7 +48,10 @@ class AddPeople extends Component {
     phone: Joi.string()
       .min(7)
       .required()
-      .label("Phone")
+      .label("Phone"),
+    role: Joi.string()
+      .required()
+      .valid("IT", "CEO", "HR", "Employee", "Manager")
   };
 
   validateProperty = ({ name, value }) => {
@@ -73,7 +78,8 @@ class AddPeople extends Component {
         email: this.props.employee.email,
         password: this.props.employee.password,
         rePassword: this.props.employee.password,
-        phone: this.props.employee.phone
+        phone: this.props.employee.phone,
+        role: this.props.employee.role
       };
       this.setState({ employee });
     }
@@ -98,7 +104,8 @@ class AddPeople extends Component {
         email: "",
         password: "",
         rePassword: "",
-        phone: ""
+        phone: "",
+        role: ""
       };
       if (!err) {
         this.setState({ employee });
@@ -121,8 +128,8 @@ class AddPeople extends Component {
   render() {
     const bodyInfo = this.props.bodyInfo;
     return (
-      <div className="add-people pl-4">
-        <h1 className="text-center pt-3">{bodyInfo.section} Section</h1>
+      <div className="add-people col-md-9 pl-5">
+        <h1 className="text-center pt-5">{bodyInfo.section} Section</h1>
 
         <form onSubmit={this.handleSubmit} className="mt-5">
           <label htmlFor="">{bodyInfo.section} Username</label>
@@ -198,6 +205,20 @@ class AddPeople extends Component {
           />
           {this.state.errors.phone && (
             <div className="alert alert-danger">{this.state.errors.phone}</div>
+          )}
+          <label htmlFor="phone">Role</label>
+          <input
+            placeholder="Role"
+            className="form-control mb-3"
+            type="text"
+            id="role"
+            name="role"
+            onChange={this.handleChange}
+            value={this.state.employee.role}
+            error={this.state.errors.role}
+          />
+          {this.state.errors.role && (
+            <div className="alert alert-danger">{this.state.errors.role}</div>
           )}
           <button className="btn btn-warning px-4">Submit</button>
         </form>
