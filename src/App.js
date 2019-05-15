@@ -29,13 +29,15 @@ class App extends Component {
     login: {
       email: "",
       password: ""
-    }
+    },
+    jwt: ""
   };
 
   // Get Request -- Completed
   async componentDidMount() {
     try {
       const jwt = localStorage.getItem("token");
+      this.setState({ jwt });
       const user = jwt_decode(jwt);
       this.setState({ user });
       console.log(this.state.user);
@@ -47,12 +49,15 @@ class App extends Component {
   }
   // Delete Request -- Completed
   handleDelete = async employee => {
-    const data = this.state.data.filter(e => e.email !== employee);
-    this.setState({ data });
-    await deleteEmployee(employee);
+    if (this.state.user.role === "IT") {
+      const data = this.state.data.filter(e => e.email !== employee);
+      this.setState({ data });
+      await deleteEmployee(employee, this.state.jwt);
+    }
   };
 
   handleUpdate = employee => {
+    console.log(employee);
     const data = [...this.state.data];
     const index = data.indexOf(employee);
     data[index] = { ...employee };
@@ -205,6 +210,7 @@ class App extends Component {
                     <AddPeople
                       bodyInfo={this.state.bodyData}
                       handleSubmitClick={this.handleSubmitClick}
+                      token={this.state.jwt}
                       {...props}
                     />
                   </div>
@@ -224,8 +230,7 @@ class App extends Component {
                   <AddPeople
                     bodyInfo={this.state.bodyData}
                     employee={this.state.employee}
-                    index={this.state.index}
-                    handleUpdateView={this.handleUpdateView}
+                    token={this.state.jwt}
                     {...props}
                   />
                 </div>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import jwt_decode from "jwt-decode";
 import Joi from "joi-browser";
 import "./AddPeople.css";
 import { updateEmployee, addEmployee } from "../../services/employeeServices";
@@ -21,7 +22,8 @@ class AddPeople extends Component {
       rePassword: "",
       phone: "",
       role: ""
-    }
+    },
+    jwt: ""
   };
   schema = {
     name: Joi.string()
@@ -89,27 +91,41 @@ class AddPeople extends Component {
     e.preventDefault();
     const errors = this.validate();
     this.setState({ errors: errors || {} });
-    if (errors) return;
+    console.log(this.props.employee);
+    if (errors) return console.log(errors);
+
+    const user = jwt_decode(this.props.token);
     if (this.props.match.params.id) {
       const employee = { ...this.state.employee };
-      const err = await updateEmployee(employee, this.props.employee.email);
-      if (!err) {
-        this.setState({ employee });
-        window.location = "/";
+      if (user.role === "IT") {
+        console.log("update");
+        console.log(this.state.employee);
+        const err = await updateEmployee(
+          employee,
+          this.props.employee.email,
+          this.props.token
+        );
+        if (!err) {
+          this.setState({ employee });
+          window.location = "/profile";
+        }
       }
     } else {
-      const err = await addEmployee(this.state.employee);
-      const employee = {
-        name: "",
-        email: "",
-        password: "",
-        rePassword: "",
-        phone: "",
-        role: ""
-      };
-      if (!err) {
-        this.setState({ employee });
-        window.location = "/";
+      if (user.role === "IT") {
+        console.log("add");
+        const err = await addEmployee(this.state.employee, this.state.jwt);
+        const employee = {
+          name: "",
+          email: "",
+          password: "",
+          rePassword: "",
+          phone: "",
+          role: ""
+        };
+        if (!err) {
+          this.setState({ employee });
+          window.location = "/profile";
+        }
       }
     }
   };
