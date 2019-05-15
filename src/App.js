@@ -15,7 +15,7 @@ class App extends Component {
     bodyData: {
       id: "",
       aria: "",
-      section: "Employees"
+      section: "Employee"
     },
     data: [],
     employee: {
@@ -30,7 +30,8 @@ class App extends Component {
       email: "",
       password: ""
     },
-    jwt: ""
+    jwt: "",
+    user: {}
   };
 
   // Get Request -- Completed
@@ -183,7 +184,10 @@ class App extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className="dashboard col-md-2">
-                    <Dashboard onClickMe={this.onMouseClick} />{" "}
+                    <Dashboard
+                      onClickMe={this.onMouseClick}
+                      user={this.state.user}
+                    />{" "}
                   </div>{" "}
                   <div className="info-body col-md-9 pl-5 ml-3">
                     <Body
@@ -204,7 +208,10 @@ class App extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className="dashboard col-md-2 ">
-                    <Dashboard onClickMe={this.onMouseClick} />{" "}
+                    <Dashboard
+                      onClickMe={this.onMouseClick}
+                      user={this.state.user}
+                    />{" "}
                   </div>{" "}
                   <div className="info-body col-md-9 pl-5 ml-3">
                     <AddPeople
@@ -224,7 +231,10 @@ class App extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className="dashboard col-md-2">
-                    <Dashboard onClickMe={this.onMouseClick} />{" "}
+                    <Dashboard
+                      onClickMe={this.onMouseClick}
+                      user={this.state.user}
+                    />{" "}
                   </div>{" "}
                   <div className="info-body" />
                   <AddPeople

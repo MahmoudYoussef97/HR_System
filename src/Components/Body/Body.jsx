@@ -29,31 +29,34 @@ class Body extends Component {
                 </tr>
               </thead>
               <tbody>
-                {data.map(item => (
-                  <tr key={item._id}>
-                    <td>{item.name}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
-                    <td>
-                      <Link to={`/Update/${item.name}`}>
-                        <button
-                          onClick={() => this.props.handleUpdate(item)}
-                          className="btn btn-info btn-sm"
-                        >
-                          Update
-                        </button>
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => this.props.handleDelete(item.email)}
-                        className="btn btn-danger btn-sm"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {data.map(
+                  item =>
+                    item.role === this.props.bodyInfo.section && (
+                      <tr key={item._id}>
+                        <td>{item.name}</td>
+                        <td>{item.email}</td>
+                        <td>{item.phone}</td>
+                        <td>
+                          <Link to={`/Update/${item.name}`}>
+                            <button
+                              onClick={() => this.props.handleUpdate(item)}
+                              className="btn btn-info btn-sm"
+                            >
+                              Update
+                            </button>
+                          </Link>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => this.props.handleDelete(item.email)}
+                            className="btn btn-danger btn-sm"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                )}
               </tbody>
             </table>
           </div>

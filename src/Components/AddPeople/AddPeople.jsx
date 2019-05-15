@@ -47,7 +47,7 @@ class AddPeople extends Component {
       .max(255)
       .required()
       .label("Re-Password"),
-    phone: Joi.string()
+    phone: Joi.number()
       .min(7)
       .required()
       .label("Phone"),
@@ -84,6 +84,16 @@ class AddPeople extends Component {
         role: this.props.employee.role
       };
       this.setState({ employee });
+    } else {
+      const employee = {
+        name: null,
+        email: null,
+        password: null,
+        rePassword: null,
+        phone: null,
+        role: this.props.bodyInfo.section
+      };
+      this.setState({ employee });
     }
   }
 
@@ -112,19 +122,18 @@ class AddPeople extends Component {
       }
     } else {
       if (user.role === "IT") {
-        console.log("add");
         const err = await addEmployee(this.state.employee, this.state.jwt);
-        const employee = {
-          name: "",
-          email: "",
-          password: "",
-          rePassword: "",
-          phone: "",
-          role: ""
-        };
         if (!err) {
-          this.setState({ employee });
+          const employee = {
+            name: "",
+            email: "",
+            password: "",
+            rePassword: "",
+            phone: "",
+            role: ""
+          };
           window.location = "/profile";
+          this.setState({ employee });
         }
       }
     }
@@ -180,7 +189,7 @@ class AddPeople extends Component {
           <input
             placeholder="Password"
             className="form-control mb-3"
-            type="text"
+            type="password"
             id="password"
             name="password"
             onChange={this.handleChange}
@@ -196,7 +205,7 @@ class AddPeople extends Component {
           <input
             placeholder="Re-Password"
             className="form-control mb-3"
-            type="text"
+            type="password"
             id="rePassword"
             name="rePassword"
             onChange={this.handleChange}
