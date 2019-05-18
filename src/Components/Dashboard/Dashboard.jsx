@@ -9,7 +9,7 @@ class Dashboard extends Component {
     return (
       <React.Fragment>
         <TopLabel user={this.props.user} />
-        <Pills onClickMe={this.props.onClickMe} />
+        <Pills onClickMe={this.props.onClickMe} user={this.props.user} />
       </React.Fragment>
     );
   }

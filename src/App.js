@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Body from "./Components/Body/Body";
 import AddPeople from "./Components/AddPeople/AddPeople";
+import Tasks from "./Components/Tasks/Tasks";
 import { getEmployees, deleteEmployee } from "./services/employeeServices";
 import "./App.css";
 import Particles from "react-particles-js";
@@ -31,7 +32,7 @@ class App extends Component {
       password: ""
     },
     jwt: "",
-    user: {}
+    user: false
   };
 
   // Get Request -- Completed
@@ -40,9 +41,12 @@ class App extends Component {
       const jwt = localStorage.getItem("token");
       this.setState({ jwt });
       const user = jwt_decode(jwt);
+      console.log(jwt);
       this.setState({ user });
-      console.log(this.state.user);
       if (user.role === "IT") {
+        const { data } = await getEmployees(jwt);
+        this.setState({ data });
+      } else if (user.role === "Manager") {
         const { data } = await getEmployees(jwt);
         this.setState({ data });
       }
@@ -58,7 +62,6 @@ class App extends Component {
   };
 
   handleUpdate = employee => {
-    console.log(employee);
     const data = [...this.state.data];
     const index = data.indexOf(employee);
     data[index] = { ...employee };
@@ -72,6 +75,7 @@ class App extends Component {
     bodyData.id = `v-pills-${sec[2]}`;
     bodyData.aria = `v-pills-${sec[2]}-tab`;
     bodyData.section = sec[2];
+    console.log(this.state.bodyData);
     this.setState({ bodyData });
   };
 
@@ -195,6 +199,7 @@ class App extends Component {
                       handleDelete={this.handleDelete}
                       handleUpdate={this.handleUpdate}
                       bodyInfo={this.state.bodyData}
+                      user={this.state.user}
                       {...props}
                     />{" "}
                   </div>{" "}
@@ -202,6 +207,31 @@ class App extends Component {
               </div>
             )}
           />{" "}
+          <Route
+            path="/Tasks/:id"
+            render={props => (
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="dashboard col-md-2">
+                    <Dashboard
+                      onClickMe={this.onMouseClick}
+                      user={this.state.user}
+                    />{" "}
+                  </div>{" "}
+                  <div className="info-body col-md-9 pl-5 ml-3">
+                    <Tasks
+                      data={this.state.data}
+                      token={this.state.jwt}
+                      employee={this.state.employee}
+                      bodyInfo={this.state.bodyData}
+                      user={this.state.user}
+                      {...props}
+                    />{" "}
+                  </div>{" "}
+                </div>{" "}
+              </div>
+            )}
+          />
           <Route
             path="/AddPeople"
             render={props => (

@@ -1,0 +1,7 @@
+.tasks input {
+  display: inline-block !important;
+  width: 90% !important;
+}
+.add_button {
+  width: 10%;
+}

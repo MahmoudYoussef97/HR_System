@@ -3,47 +3,92 @@ import "./Pills.css";
 import { Link } from "react-router-dom";
 
 const Pills = props => {
+  const userRole = props.user.role;
   return (
     <div className="pill pt-3">
-      <div
-        className="nav flex-column nav-pills"
-        id="v-pills-tab"
-        role="tablist"
-        aria-orientation="vertical"
-      >
-        <Link
-          className="nav-link"
-          id="v-pills-Employee-tab"
-          to="/profile"
-          onClick={props.onClickMe}
+      {userRole === "IT" && (
+        <div
+          className="nav flex-column nav-pills"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
         >
-          Employee
-        </Link>
-        <Link
-          className="nav-link"
-          id="v-pills-Manager-tab"
-          to="/profile"
-          onClick={props.onClickMe}
+          <Link
+            className="nav-link"
+            id="v-pills-Employee-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Employee
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Manager-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Manager
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-HR-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            HR
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-IT-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            IT
+          </Link>
+        </div>
+      )}
+      ,
+      {userRole === "Manager" && (
+        <div
+          className="nav flex-column nav-pills"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
         >
-          Manager
-        </Link>
-        <Link
-          className="nav-link"
-          id="v-pills-HR-tab"
-          to="/profile"
-          onClick={props.onClickMe}
-        >
-          HR
-        </Link>
-        <Link
-          className="nav-link"
-          id="v-pills-IT-tab"
-          to="/profile"
-          onClick={props.onClickMe}
-        >
-          IT
-        </Link>
-      </div>
+          <Link
+            className="nav-link"
+            id="v-pills-Employee-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Employee
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Analysis-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Analysis
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Complaints-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Complaints
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Reports-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Reports
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

@@ -101,9 +101,7 @@ class AddPeople extends Component {
     e.preventDefault();
     const errors = this.validate();
     this.setState({ errors: errors || {} });
-    console.log(this.props.employee);
     if (errors) return console.log(errors);
-
     const user = jwt_decode(this.props.token);
     if (this.props.match.params.id) {
       const employee = { ...this.state.employee };
