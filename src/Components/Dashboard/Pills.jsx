@@ -47,7 +47,6 @@ const Pills = props => {
           </Link>
         </div>
       )}
-      ,
       {userRole === "Manager" && (
         <div
           className="nav flex-column nav-pills"
@@ -78,6 +77,47 @@ const Pills = props => {
             onClick={props.onClickMe}
           >
             Complaints
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Reports-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Reports
+          </Link>
+        </div>
+      )}
+      {userRole === "HR" && (
+        <div
+          className="nav flex-column nav-pills"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
+        >
+          <Link
+            className="nav-link"
+            id="v-pills-Employee-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Employee
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Analysis-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Analysis
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Suggestions-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Suggestions
           </Link>
           <Link
             className="nav-link"

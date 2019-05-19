@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tinymce/tinymce-react": "^3.1.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "joi-browser": "^13.4.0",
@@ -12,11 +13,13 @@
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",
+    "react-charts": "^2.0.0-alpha.12",
     "react-dom": "^16.8.6",
     "react-particles-js": "^2.6.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "recharts": "^1.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
