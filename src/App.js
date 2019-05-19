@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Body from "./Components/Body/Body";
 import AddPeople from "./Components/AddPeople/AddPeople";
+import StarRatings from "react-star-ratings";
 import Tasks from "./Components/Tasks/Tasks";
 import { getEmployees, deleteEmployee } from "./services/employeeServices";
 import "./App.css";
@@ -41,12 +42,8 @@ class App extends Component {
       const jwt = localStorage.getItem("token");
       this.setState({ jwt });
       const user = jwt_decode(jwt);
-      console.log(jwt);
       this.setState({ user });
-      if (user.role === "IT") {
-        const { data } = await getEmployees(jwt);
-        this.setState({ data });
-      } else if (user.role === "Manager") {
+      if (user.role != "employee") {
         const { data } = await getEmployees(jwt);
         this.setState({ data });
       }
@@ -75,7 +72,6 @@ class App extends Component {
     bodyData.id = `v-pills-${sec[2]}`;
     bodyData.aria = `v-pills-${sec[2]}-tab`;
     bodyData.section = sec[2];
-    console.log(this.state.bodyData);
     this.setState({ bodyData });
   };
 
@@ -91,7 +87,6 @@ class App extends Component {
 
   handleLogin = async e => {
     e.preventDefault();
-    console.log(this.state.login);
     const { data: jwt } = await loginUser(
       this.state.login.email,
       this.state.login.password
@@ -109,7 +104,6 @@ class App extends Component {
 
   render() {
     const user = this.state.user;
-    console.log(user);
     return (
       <div className="App">
         <BrowserRouter>

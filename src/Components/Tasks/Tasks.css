@@ -1,7 +1,18 @@
-.tasks input {
+.tasks-form input {
   display: inline-block !important;
   width: 90% !important;
 }
 .add_button {
   width: 10%;
+  margin-bottom: 5px;
+}
+.Done {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.NotDone {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
 }

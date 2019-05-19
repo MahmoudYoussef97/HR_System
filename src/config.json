@@ -1,4 +1,5 @@
 {
   "apiUrl": "http://localhost:3001/api/users",
-  "loginUrl": "http://localhost:3001/api/auth"
+  "loginUrl": "http://localhost:3001/api/auth",
+  "taskUrl": "http://localhost:3001/api/tasks"
 }

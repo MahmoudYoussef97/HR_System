@@ -1,8 +1,18 @@
 import http from "./httpServices";
 import { taskUrl } from "../config.json";
 
-export function getTasks(jwt) {
-  return http.get(taskUrl, { headers: { "x-auth-token": jwt } });
+function Taskurl(id) {
+  return `${taskUrl}/${id}`;
+}
+function Statusurl(id) {
+  return `${taskUrl}/status/${id}`;
+}
+function Evaluationurl(id) {
+  return `${taskUrl}/evaluate/${id}`;
+}
+
+export function getTasks(empID, jwt) {
+  return http.get(Taskurl(empID), { headers: { "x-auth-token": jwt } });
 }
 
 export function addTask(task, jwt) {
@@ -17,9 +27,12 @@ export function addTask(task, jwt) {
     });
 }
 
-export function updateEmployee(task, status, jwt) {
+export function updateStatus(task, jwt) {
+  const Task = {
+    status: task.status
+  };
   return http
-    .put(taskUrl, task, { headers: { "x-auth-token": jwt } })
+    .put(Statusurl(task._id), Task, { headers: { "x-auth-token": jwt } })
     .then(function(response) {
       console.log(response);
     })
@@ -27,4 +40,26 @@ export function updateEmployee(task, status, jwt) {
       alert(error.response.data);
       return error.response.data;
     });
+}
+
+export function updateEvaluation(task, jwt) {
+  console.log(task);
+  const Task = {
+    evaluation: task.evaluation
+  };
+  return http
+    .put(Evaluationurl(task._id), Task, { headers: { "x-auth-token": jwt } })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      alert(error.response.data);
+      return error.response.data;
+    });
+}
+export function deleteTask(taskId, jwt) {
+  return http.delete(taskUrl, {
+    headers: { "x-auth-token": jwt },
+    data: { _id: taskId }
+  });
 }

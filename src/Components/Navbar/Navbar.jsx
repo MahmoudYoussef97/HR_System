@@ -31,8 +31,13 @@ class Navbar extends Component {
                   Home <span className="sr-only">(current)</span>
                 </Link>
               )}
-              {user && (
+              {user && user.role != "Employee" && (
                 <Link className="nav-link" to="/profile">
+                  Profile <span className="sr-only">(current)</span>
+                </Link>
+              )}
+              {user && user.role == "Employee" && (
+                <Link className="nav-link" to={`/Tasks/${user._id}`}>
                   Profile <span className="sr-only">(current)</span>
                 </Link>
               )}
