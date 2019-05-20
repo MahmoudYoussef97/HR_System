@@ -17,7 +17,11 @@
   box-shadow: 8px 25px 50px -15px rgba(0, 0, 0, 0.7);
   margin-top: 30px;
 }
-.editor-wrapp {
-  background-color: rgb(27, 27, 27);
-  box-shadow: 8px 50px 50px -15px rgba(0, 0, 0, 0.7);
+textarea,
+.input-mess {
+  background-color: rgb(27, 27, 27) !important;
+  color: orange !important;
+}
+.input-mess {
+  padding: 25px 10px !important;
 }

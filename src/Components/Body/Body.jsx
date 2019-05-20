@@ -13,16 +13,47 @@ import { BarChart, Bar, Cell } from "recharts";
 import { AreaChart, Area } from "recharts";
 import { PieChart, Pie, Sector } from "recharts";
 import { RadialBarChart, RadialBar } from "recharts";
-import { Editor } from "@tinymce/tinymce-react";
 
-import { getEmployees } from "../../services/employeeServices";
+import { sendSuggestion } from "../../services/suggestionServices";
+import { sendReport } from "../../services/reportServices";
+
 import "./Body.css";
 
 class Body extends Component {
   state = {
     activeIndex: 0,
-    suggestion: "",
-    report: ""
+    suggestion: {
+      hrName: "",
+      suggestionTitle: "",
+      suggestionText: ""
+    },
+    report: {
+      hrName: "",
+      reportTitle: "",
+      reportText: ""
+    }
+  };
+
+  handleReportContentChange = e => {
+    const report = { ...this.state.report };
+    report[e.currentTarget.name] = e.currentTarget.value;
+    this.setState({ report });
+  };
+  handleReportTitleChange = e => {
+    const report = { ...this.state.report };
+    report[e.currentTarget.name] = e.currentTarget.value;
+    this.setState({ report });
+  };
+
+  handleSuggestionContentChange = e => {
+    const suggestion = { ...this.state.suggestion };
+    suggestion[e.currentTarget.name] = e.currentTarget.value;
+    this.setState({ suggestion });
+  };
+  handleSuggestionTitleChange = e => {
+    const suggestion = { ...this.state.suggestion };
+    suggestion[e.currentTarget.name] = e.currentTarget.value;
+    this.setState({ suggestion });
   };
 
   onPieEnter = (data, index) => {
@@ -31,20 +62,22 @@ class Body extends Component {
     });
   };
 
-  handleEditorChange = e => {
-    console.log("Content was updated:", e.target.getContent());
-    this.setState({ suggestion: e.target.getContent() });
-  };
-
   handleSuggestion = () => {
     // adding suggestion to the table in database ...
-    console.log(this.state.suggestion);
+    const suggestion = this.state.suggestion;
+    suggestion.hrName = this.props.user.name;
+    const jwt = this.props.jwt;
+    console.log(suggestion);
+    sendSuggestion(suggestion, jwt);
     window.location = "/profile";
   };
 
   handleReport = () => {
     // adding report to the table in database ...
-    console.log(this.state.report);
+    const report = this.state.report;
+    report.hrName = this.props.user.name;
+    const jwt = this.props.jwt;
+    sendReport(report, jwt);
     window.location = "/profile";
   };
 
@@ -269,6 +302,7 @@ class Body extends Component {
       left: 350,
       lineHeight: "24px"
     };
+
     return (
       <React.Fragment>
         <div className="body-section">
@@ -290,10 +324,10 @@ class Body extends Component {
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
-                    {user.role == "IT" && <th scope="col">Update</th> && (
+                    {user.role === "IT" && <th scope="col">Update</th> && (
                       <th scope="col">Delete</th>
                     )}
-                    {user.role == "Manager" && <th scope="col">Tasks</th>}
+                    {user.role === "Manager" && <th scope="col">Tasks</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -468,33 +502,77 @@ class Body extends Component {
               </div>
             </React.Fragment>
           )}
-          {(bodyInfo.section === "Suggestions" ||
-            bodyInfo.section === "Reports") && (
-            <div className="editor-wrapp">
-              <Editor
-                apiKey="bc8az5almbmb94wtkrbq5l3kou0mii7epft1u038gmc1v5nh"
-                initialValue="<p>Start Writing ... </p>"
-                init={{
-                  plugins: "link image code",
-                  toolbar:
-                    "undo redo | bold italic | alignleft aligncenter alignright | code"
-                }}
-                onChange={this.handleEditorChange}
-              />
-            </div>
-          )}
+
           {bodyInfo.section === "Suggestions" && (
-            <button
-              onClick={this.handleSuggestion}
-              className="btn btn-info mt-3"
-            >
-              Send Suggestion
-            </button>
+            <React.Fragment>
+              <form onSubmit={this.handleSuggestion}>
+                <input
+                  className="form-control input-mess"
+                  type="text"
+                  style={{ width: "100%" }}
+                  placeholder="Write Headline here..."
+                  value={this.state.suggestion.title}
+                  onChange={this.handleSuggestionTitleChange}
+                  name="suggestionTitle"
+                  id="suggestionTitle"
+                />
+                <div className="form-group shadow-textarea">
+                  <label for="exampleFormControlTextarea6">
+                    Shadow and placeholder
+                  </label>
+                  <textarea
+                    className="form-control z-depth-1"
+                    id="exampleFormControlTextarea6"
+                    rows="12"
+                    placeholder="Write something here..."
+                    value={this.state.suggestion.content}
+                    onChange={this.handleSuggestionContentChange}
+                    name="suggestionText"
+                    id="suggestionText"
+                  />
+                </div>
+              </form>
+              <button
+                onClick={this.handleSuggestion}
+                className="btn btn-info mt-3"
+              >
+                Send Suggestion
+              </button>
+            </React.Fragment>
           )}
           {bodyInfo.section === "Reports" && (
-            <button onClick={this.handleReport} className="btn btn-info mt-3">
-              Send Report
-            </button>
+            <React.Fragment>
+              <form onSubmit={this.handleReport}>
+                <input
+                  className="form-control input-mess"
+                  type="text"
+                  style={{ width: "100%" }}
+                  placeholder="Write Headline here..."
+                  value={this.state.report.title}
+                  onChange={this.handleReportTitleChange}
+                  name="reportTitle"
+                  id="reportTitle"
+                />
+                <div className="form-group shadow-textarea">
+                  <label for="exampleFormControlTextarea6">
+                    Shadow and placeholder
+                  </label>
+                  <textarea
+                    className="form-control z-depth-1"
+                    id="exampleFormControlTextarea6"
+                    rows="12"
+                    placeholder="Write something here..."
+                    value={this.state.report.content}
+                    onChange={this.handleReportContentChange}
+                    name="reportText"
+                    id="reportText"
+                  />
+                </div>
+              </form>
+              <button onClick={this.handleReport} className="btn btn-info mt-3">
+                Send Report
+              </button>
+            </React.Fragment>
           )}
         </div>
       </React.Fragment>

@@ -6,10 +6,15 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Body from "./Components/Body/Body";
 import AddPeople from "./Components/AddPeople/AddPeople";
 import Tasks from "./Components/Tasks/Tasks";
-import { getEmployees, deleteEmployee } from "./services/employeeServices";
+import {
+  getEmployees,
+  getUsers,
+  deleteEmployee
+} from "./services/employeeServices";
 import "./App.css";
 import Particles from "react-particles-js";
 import { loginUser } from "./services/loginServices";
+import { isError } from "util";
 
 class App extends Component {
   state = {
@@ -44,10 +49,12 @@ class App extends Component {
       console.log(jwt);
       this.setState({ user });
       if (user.role === "IT") {
-        const { data } = await getEmployees(jwt);
+        const { data } = await getUsers(jwt);
         this.setState({ data });
-      } else if (user.role === "Manager") {
-        const { data } = await getEmployees(jwt);
+        console.log(this.state.data);
+      } else if (user.role === "Manager" || user.role === "HR") {
+        const { data } = await getEmployees(jwt, user.role);
+        console.log(data);
         this.setState({ data });
       }
     } catch (ex) {}
@@ -203,6 +210,7 @@ class App extends Component {
                       handleUpdate={this.handleUpdate}
                       bodyInfo={this.state.bodyData}
                       user={this.state.user}
+                      jwt={this.state.jwt}
                       {...props}
                     />{" "}
                   </div>{" "}

@@ -1,12 +1,16 @@
 import http from "./httpServices";
-import { apiUrl } from "../config.json";
+import { apiUrl, roleEmployee } from "../config.json";
 
-function employeeUrl(mail) {
-  return `${apiUrl}/${mail}`;
+function employeeUrl(role) {
+  return `${apiUrl}/role/${role}`;
 }
 
-export function getEmployees(jwt) {
+export function getUsers(jwt) {
   return http.get(apiUrl, { headers: { "x-auth-token": jwt } });
+}
+
+export function getEmployees(jwt, role) {
+  return http.get(roleEmployee, { headers: { "x-auth-token": jwt } });
 }
 
 export function getEmployee(employeeMail) {
