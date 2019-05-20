@@ -71,6 +71,7 @@ class App extends Component {
       const jwt = localStorage.getItem("token");
       this.setState({ jwt });
       const user = jwt_decode(jwt);
+      console.log(user);
       this.setState({ user });
       if (user.role === "IT") {
         const { data } = await getUsers(jwt);
@@ -78,7 +79,7 @@ class App extends Component {
         console.log(this.state.data);
       } else if (user.role === "Manager" || user.role === "HR") {
         const { data } = await getEmployees(jwt, user.role);
-        console.log(data);
+        this.setState({ data });
       }
     } catch (ex) {}
   }
@@ -128,6 +129,7 @@ class App extends Component {
       this.state.login.password
     );
     localStorage.setItem("token", jwt);
+    console.log(jwt);
     const login = {
       email: "",
       password: ""

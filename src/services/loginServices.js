@@ -11,6 +11,7 @@ export function loginUser(email, password) {
     })
     .then(function(response) {
       console.log(response);
+      return response;
     })
     .catch(function(error) {
       alert(error.response.data);

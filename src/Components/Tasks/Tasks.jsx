@@ -117,8 +117,9 @@ class Taskes extends Component {
           <form onSubmit={this.handleSubmit} className="tasks-form mt-2">
             {this.state.show && (
               <input
+                style={{ maxWidth: "950px" }}
                 placeholder="task description"
-                className="form-control mb-2"
+                className="form-control my-2 mr-3"
                 type="text"
                 id="task"
                 name="task"

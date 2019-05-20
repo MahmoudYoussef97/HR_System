@@ -302,7 +302,13 @@ class Body extends Component {
       left: 350,
       lineHeight: "24px"
     };
-
+    const mapped = {
+      Employee: true,
+      Manager: true,
+      IT: true,
+      CEO: true,
+      HR: true
+    };
     return (
       <React.Fragment>
         <div className="body-section">
@@ -316,7 +322,7 @@ class Body extends Component {
               Add {bodyInfo.section}
             </Link>
           )}
-          {bodyInfo.section === "Employee" && (
+          {mapped[bodyInfo.section] && (
             <div className="table-area pt-4">
               <table className="table table-striped table-dark">
                 <thead>
@@ -363,6 +369,18 @@ class Body extends Component {
                             </td>
                           )}
                           {user.role === "Manager" && (
+                            <td>
+                              <Link to={`/Tasks/${item._id}`}>
+                                <button
+                                  onClick={() => this.props.handleUpdate(item)}
+                                  className="btn btn-info btn-sm"
+                                >
+                                  Show Tasks
+                                </button>
+                              </Link>
+                            </td>
+                          )}
+                          {user.role === "HR" && (
                             <td>
                               <Link to={`/Tasks/${item._id}`}>
                                 <button
