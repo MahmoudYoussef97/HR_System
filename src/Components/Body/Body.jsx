@@ -330,8 +330,11 @@ class Body extends Component {
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
-                    {user.role === "IT" && <th scope="col">Update</th> && (
-                      <th scope="col">Delete</th>
+                    {user.role === "IT" && (
+                      <React.Fragment>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                      </React.Fragment>
                     )}
                     {(user.role === "Manager" || user.role === "HR") && (
                       <th scope="col">Tasks</th>

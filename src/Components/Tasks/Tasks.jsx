@@ -66,7 +66,7 @@ class Taskes extends Component {
       employeeId: this.props.match.params.id,
       managerId: this.props.user._id
     };
-    await addTask(task, this.props.token);
+    await addTask(task, this.props.match.token);
     task.status = "NotDone";
     tasks = [task, ...this.state.tasks];
     this.setState({ task, tasks });
