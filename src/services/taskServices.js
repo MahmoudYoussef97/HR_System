@@ -57,9 +57,3 @@ export function updateEvaluation(task, jwt) {
       return error.response.data;
     });
 }
-export function deleteTask(taskId, jwt) {
-  return http.delete(taskUrl, {
-    headers: { "x-auth-token": jwt },
-    data: { _id: taskId }
-  });
-}

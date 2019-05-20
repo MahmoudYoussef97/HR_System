@@ -79,6 +79,7 @@ class App extends Component {
       } else if (user.role === "Manager" || user.role === "HR") {
         const { data } = await getEmployees(jwt, user.role);
         console.log(data);
+        this.setState({ data });
       }
     } catch (ex) {}
   }
@@ -121,8 +122,8 @@ class App extends Component {
   handleLogin = async e => {
     e.preventDefault();
     const errors = this.validate();
-    console.log(errors);
     this.setState({ errors: errors || {} });
+    if (errors) return console.log(errors);
     const { data: jwt } = await loginUser(
       this.state.login.email,
       this.state.login.password

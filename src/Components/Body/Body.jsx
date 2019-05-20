@@ -327,7 +327,9 @@ class Body extends Component {
                     {user.role === "IT" && <th scope="col">Update</th> && (
                       <th scope="col">Delete</th>
                     )}
-                    {user.role === "Manager" && <th scope="col">Tasks</th>}
+                    {(user.role === "Manager" || user.role === "HR") && (
+                      <th scope="col">Tasks</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -362,7 +364,7 @@ class Body extends Component {
                               </button>
                             </td>
                           )}
-                          {user.role === "Manager" && (
+                          {(user.role === "Manager" || user.role === "HR") && (
                             <td>
                               <Link to={`/Tasks/${item._id}`}>
                                 <button
