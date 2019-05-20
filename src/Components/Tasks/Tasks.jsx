@@ -138,7 +138,6 @@ class Taskes extends Component {
                   <th scope="col">Task</th>
                   <th scope="col">Status</th>
                   <th scope="col">Rating</th>
-                  {user.role == "Manager" && <th scope="col">Delete</th>}
                 </tr>
               </thead>
               <tbody>
@@ -187,16 +186,6 @@ class Taskes extends Component {
                             />
                           )}
                         </td>
-                        {user.role == "Manager" && (
-                          <td>
-                            <button
-                              onClick={() => this.handleDelete(item._id)}
-                              className="btn btn-danger btn-sm"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        )}
                       </tr>
                     )
                 )}
