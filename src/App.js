@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Body from "./Components/Body/Body";
 import AddPeople from "./Components/AddPeople/AddPeople";
+import Joi from "joi-browser";
 import Tasks from "./Components/Tasks/Tasks";
 import {
   getEmployees,
@@ -36,8 +37,32 @@ class App extends Component {
       email: "",
       password: ""
     },
+    errors: {
+      email: "",
+      password: ""
+    },
     jwt: "",
     user: false
+  };
+  schema = {
+    email: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+      .email(),
+    password: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+  };
+
+  validate = () => {
+    const { error } = Joi.validate(this.state.login, this.schema);
+    if (!error) return null;
+
+    const errors = {};
+    for (let item of error.details) errors[item.path[0]] = item.message;
+    return errors;
   };
 
   // Get Request -- Completed
@@ -46,7 +71,6 @@ class App extends Component {
       const jwt = localStorage.getItem("token");
       this.setState({ jwt });
       const user = jwt_decode(jwt);
-      console.log(jwt);
       this.setState({ user });
       if (user.role === "IT") {
         const { data } = await getUsers(jwt);
@@ -55,7 +79,6 @@ class App extends Component {
       } else if (user.role === "Manager" || user.role === "HR") {
         const { data } = await getEmployees(jwt, user.role);
         console.log(data);
-        this.setState({ data });
       }
     } catch (ex) {}
   }
@@ -97,6 +120,9 @@ class App extends Component {
 
   handleLogin = async e => {
     e.preventDefault();
+    const errors = this.validate();
+    console.log(errors);
+    this.setState({ errors: errors || {} });
     const { data: jwt } = await loginUser(
       this.state.login.email,
       this.state.login.password
@@ -119,7 +145,6 @@ class App extends Component {
 
   render() {
     const user = this.state.user;
-    console.log(user);
     return (
       <div className="App">
         <BrowserRouter>
@@ -164,7 +189,13 @@ class App extends Component {
                           name="email"
                           onChange={this.handleChange}
                           value={this.state.login.email}
-                        />{" "}
+                          error={this.state.errors.email}
+                        />
+                        {this.state.errors.email && (
+                          <div className="alert alert-danger">
+                            {this.state.errors.email}
+                          </div>
+                        )}{" "}
                         <label htmlFor="email"> Password </label>{" "}
                         <input
                           placeholder="Password"
@@ -174,7 +205,13 @@ class App extends Component {
                           name="password"
                           onChange={this.handleChange}
                           value={this.state.login.password}
-                        />{" "}
+                          error={this.state.errors.password}
+                        />
+                        {this.state.errors.password && (
+                          <div className="alert alert-danger">
+                            {this.state.errors.password}
+                          </div>
+                        )}{" "}
                         <button className="btn btn-warning px-4">
                           {" "}
                           Login{" "}

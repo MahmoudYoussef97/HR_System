@@ -1,8 +1,17 @@
 import React, { Component } from "react";
+import StarRatings from "react-star-ratings";
+import {
+  updateStatus,
+  updateEvaluation,
+  addTask,
+  getTasks
+} from "../../services/taskServices";
+import { getEmployee } from "../../services/employeeServices";
 import "./Tasks.css";
 
 class Taskes extends Component {
   state = {
+    tasks: [],
     employee: {
       name: "",
       email: "",
@@ -11,76 +20,114 @@ class Taskes extends Component {
       phone: "",
       role: ""
     },
-    Task: {
-      task: ""
+    task: {
+      task: "",
+      evaluation: 0,
+      status: ""
     },
     show: false,
-    jwt: "",
-    status: "NotDone",
-    statusType: "btn-danger"
+    jwt: ""
   };
-  /*
+
   async componentDidMount() {
-    console.log(this.props.token);
+    /*
     const { employee } = await getEmployee(
       this.props.match.params.id,
       this.props.token
-    );
-    this.setState({ employee });
-    console.log(this.state.employee);
+    );*/
+    try {
+      //console.log(this.props.match.params.id);
+      const jwt = localStorage.getItem("token");
+      this.setState({ jwt });
+      const tasks = await getTasks(this.props.match.params.id, jwt);
+      console.log(tasks.data);
+
+      this.setState({ tasks: tasks.data });
+    } catch (ex) {}
   }
-*/
+
   handleChange = e => {
-    const Task = { ...this.state.Task };
-    Task[e.currentTarget.name] = e.currentTarget.value;
-    this.setState({ Task });
+    const task = { ...this.state.task };
+    task[e.currentTarget.name] = e.currentTarget.value;
+    this.setState({ task });
   };
   addTask = () => {
-    let show = { ...this.state.show };
-    show = true;
+    let show = this.state.show;
+    console.log(show);
+    if (show) show = false;
+    else show = true;
     this.setState({ show });
   };
   handleSubmit = async e => {
     e.preventDefault();
+    let tasks = { ...this.state.tasks };
+    const task = {
+      task: this.state.task.task,
+      employeeId: this.props.match.params.id,
+      managerId: this.props.user._id
+    };
+    await addTask(task, this.props.token);
+    task.status = "NotDone";
+    tasks = [task, ...this.state.tasks];
+    this.setState({ task, tasks });
   };
-  handleStatus = () => {
-    let status = { ...this.state.status };
+  handleStatus = async task => {
+    const tasks = [...this.state.tasks];
+    const index = tasks.indexOf(task);
     let statusType = { ...this.state.statusType };
-    if (status === "Done") {
-      status = "NotDone";
-      statusType = "btn-danger";
+    if (task.status === "Done") {
+      task.status = "NotDone";
     } else {
-      status = "Done";
-      statusType = "btn-success";
+      task.status = "Done";
     }
-    this.setState({ status, statusType });
+    console.log(task);
+    await updateStatus(task, this.state.jwt);
+    tasks[index] = { ...task };
+    this.setState({ tasks, task, statusType });
   };
-  handleDelete = () => {};
+
+  handleDelete = async taskId => {
+    const tasks = this.state.tasks.filter(e => e._id !== taskId);
+    //await deleteTask(taskId, this.props.jwt);
+    this.setState({ tasks });
+  };
+
+  changeRating = async (newRating, task) => {
+    const tasks = [...this.state.tasks];
+    const index = tasks.indexOf(task);
+    task.evaluation = newRating;
+    console.log(task);
+    await updateEvaluation(task, this.state.jwt);
+    tasks[index] = { ...task };
+    this.setState({ tasks, task });
+  };
   render() {
-    const { data, employee } = this.props;
+    const { employee, user } = this.props;
     return (
       <React.Fragment>
         <div className="body-section">
           <div className="section-title pl-4">
             <h1 className="text-center pt-5 pb-3">{employee.name} Tasks</h1>
           </div>
-          <button onClick={() => this.addTask()} className="btn btn-warning ">
-            Add Task
-          </button>
-          <form onSubmit={this.handleSubmit} className="tasks mt-2">
+          {user.role == "Manager" && (
+            <button onClick={() => this.addTask()} className="btn btn-warning ">
+              Add Task
+            </button>
+          )}
+          <form onSubmit={this.handleSubmit} className="tasks-form mt-2">
             {this.state.show && (
               <input
-                placeholder="Task"
+                placeholder="task description"
                 className="form-control mb-2"
                 type="text"
                 id="task"
                 name="task"
                 onChange={this.handleChange}
-                value={this.state.Task.task}
+                value={this.state.task.task}
               />
             )}
             {this.state.show && (
-              <button className="btn btn-warning mb-1 add_button">Add</button>
+              <button className="btn btn-warning add_button">Add</button>
             )}
           </form>
           <div className="table-area pt-2">
@@ -89,31 +136,66 @@ class Taskes extends Component {
                 <tr>
                   <th scope="col">Task</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Delete</th>
+                  <th scope="col">Rating</th>
+                  {user.role == "Manager" && <th scope="col">Delete</th>}
                 </tr>
               </thead>
               <tbody>
-                {data.map(
+                {this.state.tasks.map(
                   item =>
-                    item.email === employee.email && (
+                    item.employeeId === this.props.match.params.id && (
                       <tr key={item._id}>
-                        <td>{item.name}</td>
+                        <td>{item.task}</td>
                         <td>
-                          <button
-                            onClick={() => this.handleStatus()}
-                            className={`btn ${this.state.statusType} btn-sm`}
-                          >
-                            {this.state.status}
-                          </button>
+                          {user.role === "Manager" && (
+                            <button
+                              onClick={() => this.handleStatus(item)}
+                              className={`btn ${item.status} btn-sm`}
+                            >
+                              {item.status}
+                            </button>
+                          )}
+                          {(user.role == "HR" || user.role == "Employee") && (
+                            <button
+                              className={`btn disabled ${item.status} btn-sm`}
+                            >
+                              {item.status}
+                            </button>
+                          )}
                         </td>
                         <td>
-                          <button
-                            onClick={() => this.handleDelete(item._id)}
-                            className="btn btn-danger btn-sm"
-                          >
-                            Delete
-                          </button>
+                          {user.role === "HR" && (
+                            <StarRatings
+                              rating={item.evaluation}
+                              starRatedColor="orange"
+                              changeRating={this.changeRating}
+                              name={item}
+                              starSpacing="0px"
+                              starDimension="20px"
+                              numberOfStars={5}
+                            />
+                          )}
+                          {user.role != "HR" && (
+                            <StarRatings
+                              rating={item.evaluation}
+                              starRatedColor="blue"
+                              starSpacing="0px"
+                              starDimension="20px"
+                              numberOfStars={5}
+                              name="rating"
+                            />
+                          )}
                         </td>
+                        {user.role == "Manager" && (
+                          <td>
+                            <button
+                              onClick={() => this.handleDelete(item._id)}
+                              className="btn btn-danger btn-sm"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     )
                 )}
