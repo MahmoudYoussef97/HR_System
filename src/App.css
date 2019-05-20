@@ -20,7 +20,9 @@
 .App {
   background-color: rgb(39, 39, 39);
 }
-
+.particles {
+  width: 100%;
+}
 .parti h1 {
   color: white;
   position: absolute;

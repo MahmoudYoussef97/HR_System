@@ -8,3 +8,16 @@
   color: white;
   background-color: rgb(48, 48, 48) !important;
 }
+.recharts-legend-item-text {
+  color: white;
+}
+
+.chart-card {
+  background-color: rgb(27, 27, 27);
+  box-shadow: 8px 25px 50px -15px rgba(0, 0, 0, 0.7);
+  margin-top: 30px;
+}
+.editor-wrapp {
+  background-color: rgb(27, 27, 27);
+  box-shadow: 8px 50px 50px -15px rgba(0, 0, 0, 0.7);
+}

@@ -102,18 +102,24 @@ class App extends Component {
     window.location = "/";
   };
 
+  handleLogOut = () => {
+    localStorage.removeItem("token", this.state.jwt);
+    window.location = "/";
+  };
+
   render() {
     const user = this.state.user;
     return (
       <div className="App">
         <BrowserRouter>
-          <Navbar user={this.state.user} />
+          <Navbar user={this.state.user} handleLogOut={this.handleLogOut} />
           <Route
             path="/"
             exact
             render={props => (
               <div className="parti">
                 <Particles
+                  className="particles"
                   params={{
                     particles: {
                       number: {
@@ -132,7 +138,7 @@ class App extends Component {
                       }
                     }
                   }}
-                />{" "}
+                />
                 {!user && (
                   <React.Fragment>
                     <h1 className="text-center pt-5"> HR Login Form </h1>
@@ -152,7 +158,7 @@ class App extends Component {
                         <input
                           placeholder="Password"
                           className="form-control mb-3"
-                          type="text"
+                          type="password"
                           id="password"
                           name="password"
                           onChange={this.handleChange}
@@ -170,7 +176,6 @@ class App extends Component {
                   <div>
                     <h1 className="text-center pt-5">Hello {user.name}</h1>
                   </div>
-                )}
                 )}
               </div>
             )}
