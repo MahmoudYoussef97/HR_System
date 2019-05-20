@@ -382,18 +382,6 @@ class Body extends Component {
                               </Link>
                             </td>
                           )}
-                          {user.role === "HR" && (
-                            <td>
-                              <Link to={`/Tasks/${item._id}`}>
-                                <button
-                                  onClick={() => this.props.handleUpdate(item)}
-                                  className="btn btn-info btn-sm"
-                                >
-                                  Show Tasks
-                                </button>
-                              </Link>
-                            </td>
-                          )}
                         </tr>
                       )
                   )}
