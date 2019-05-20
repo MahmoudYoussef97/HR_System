@@ -1,12 +1,14 @@
 .add-button {
-  background-color: orange !important;
+  background-color: #17a2b8 !important;
   color: white;
   text-decoration: none !important;
+  border: 1px solid #17a2b8;
 }
 
-.body-section a:hover {
+.add-button:hover {
   color: white;
   background-color: rgb(48, 48, 48) !important;
+  border: 1px solid #17a2b8;
 }
 .recharts-legend-item-text {
   color: white;
@@ -24,4 +26,8 @@ textarea,
 }
 .input-mess {
   padding: 25px 10px !important;
+}
+
+tbody button {
+  border: none !important;
 }
