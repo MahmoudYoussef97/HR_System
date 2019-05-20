@@ -590,15 +590,16 @@ class Body extends Component {
                   <div className="card">
                     <div className="card-header" id="headingOne">
                       <h2 className="mb-0">
-                        <button className="btn btn-link">
-                          HR name:{item.hrName}
+                        <button className="author btn btn-link">
+                          HR Name: {item.hrName}
                         </button>
                       </h2>
                     </div>
-
                     <div id="collapseOne" className="collapse show">
                       <div className="card-body">
-                        <div className="">{item.suggestionTitle}</div>
+                        <div className="">
+                          <h4>{item.suggestionTitle}</h4>
+                        </div>
                         <div>{item.suggestionText}</div>
                       </div>
                     </div>
@@ -614,15 +615,17 @@ class Body extends Component {
                   <div className="card">
                     <div className="card-header" id="headingOne">
                       <h2 className="mb-0">
-                        <button className="btn btn-link">
-                          HR name:{item.hrName}
+                        <button className="author btn btn-link">
+                          HR Name: {item.hrName}
                         </button>
                       </h2>
                     </div>
 
                     <div id="collapseOne" className="collapse show">
                       <div className="card-body">
-                        <div className="">{item.reportTitle}</div>
+                        <div className="">
+                          <h4>{item.reportTitle}</h4>
+                        </div>{" "}
                         <div>{item.reportText}</div>
                       </div>
                     </div>

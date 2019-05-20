@@ -25,9 +25,16 @@ class Navbar extends Component {
           {user && (
             <ul className="navbar-nav mr-auto">
               <li>
-                <Link className="nav-link" to="/profile">
-                  Profile <span className="sr-only">(current)</span>
-                </Link>
+                {user.role !== "Employee" && (
+                  <Link className="nav-link" to="/profile">
+                    Profile <span className="sr-only">(current)</span>
+                  </Link>
+                )}
+                {user.role === "Employee" && (
+                  <Link className="nav-link" to={`/Tasks/${user._id}`}>
+                    Profile <span className="sr-only">(current)</span>
+                  </Link>
+                )}
               </li>
               <li>
                 <Link onClick={this.props.handleLogOut} className="nav-link">

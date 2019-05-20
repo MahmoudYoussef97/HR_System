@@ -110,7 +110,10 @@ class Taskes extends Component {
             <h1 className="text-center pt-5 pb-3">{employee.name} Tasks</h1>
           </div>
           {user.role == "Manager" && (
-            <button onClick={() => this.addTask()} className="btn btn-warning ">
+            <button
+              onClick={() => this.addTask()}
+              className="add-task btn btn-warning "
+            >
               Add Task
             </button>
           )}
@@ -167,7 +170,7 @@ class Taskes extends Component {
                           {user.role === "HR" && (
                             <StarRatings
                               rating={item.evaluation}
-                              starRatedColor="orange"
+                              starRatedColor="#17a2b8"
                               changeRating={this.changeRating}
                               name={item}
                               starSpacing="0px"
@@ -178,7 +181,7 @@ class Taskes extends Component {
                           {user.role != "HR" && (
                             <StarRatings
                               rating={item.evaluation}
-                              starRatedColor="blue"
+                              starRatedColor="#17a2b8"
                               starSpacing="0px"
                               starDimension="20px"
                               numberOfStars={5}

@@ -22,7 +22,7 @@
 textarea,
 .input-mess {
   background-color: rgb(27, 27, 27) !important;
-  color: orange !important;
+  color: #17a2b8 !important;
 }
 .input-mess {
   padding: 25px 10px !important;
@@ -30,4 +30,20 @@ textarea,
 
 tbody button {
   border: none !important;
+}
+
+.author {
+  background-color: rgb(27, 27, 27);
+  color: white !important;
+  text-decoration: none !important;
+  border: none;
+}
+
+.card {
+  background-color: rgb(27, 27, 27);
+  color: white;
+}
+
+.card-header {
+  background-color: #17a2b8;
 }

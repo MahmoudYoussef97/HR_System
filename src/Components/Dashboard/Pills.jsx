@@ -139,14 +139,6 @@ const Pills = props => {
         >
           <Link
             className="nav-link"
-            id="v-pills-Your Information-tab"
-            to="/profile"
-            onClick={props.onClickMe}
-          >
-            Your Information
-          </Link>
-          <Link
-            className="nav-link"
             id="v-pills-Your Tasks-tab"
             to={`/Tasks/${props.user._id}`}
             onClick={props.onClickMe}
