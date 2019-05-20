@@ -511,7 +511,7 @@ class Body extends Component {
             </React.Fragment>
           )}
 
-          {bodyInfo.section === "Suggestions" && (
+          {bodyInfo.section === "Suggestions" && user.role === "HR" && (
             <React.Fragment>
               <form onSubmit={this.handleSuggestion}>
                 <input
@@ -548,7 +548,7 @@ class Body extends Component {
               </button>
             </React.Fragment>
           )}
-          {bodyInfo.section === "Reports" && (
+          {bodyInfo.section === "Reports" && user.role === "HR" && (
             <React.Fragment>
               <form onSubmit={this.handleReport}>
                 <input
@@ -582,6 +582,54 @@ class Body extends Component {
               </button>
             </React.Fragment>
           )}
+          {bodyInfo.section === "Suggestions" &&
+            user.role === "Manager" &&
+            this.props.suggestions.map(item => (
+              <React.Fragment>
+                <div className="accordion" id="accordionExample">
+                  <div className="card">
+                    <div className="card-header" id="headingOne">
+                      <h2 className="mb-0">
+                        <button className="btn btn-link">
+                          HR name:{item.hrName}
+                        </button>
+                      </h2>
+                    </div>
+
+                    <div id="collapseOne" className="collapse show">
+                      <div className="card-body">
+                        <div className="">{item.suggestionTitle}</div>
+                        <div>{item.suggestionText}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </React.Fragment>
+            ))}
+          {bodyInfo.section === "Reports" &&
+            user.role === "Manager" &&
+            this.props.reports.map(item => (
+              <React.Fragment>
+                <div className="accordion" id="accordionExample">
+                  <div className="card">
+                    <div className="card-header" id="headingOne">
+                      <h2 className="mb-0">
+                        <button className="btn btn-link">
+                          HR name:{item.hrName}
+                        </button>
+                      </h2>
+                    </div>
+
+                    <div id="collapseOne" className="collapse show">
+                      <div className="card-body">
+                        <div className="">{item.reportTitle}</div>
+                        <div>{item.reportText}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </React.Fragment>
+            ))}
         </div>
       </React.Fragment>
     );

@@ -84,11 +84,11 @@ const Pills = props => {
           </Link>
           <Link
             className="nav-link"
-            id="v-pills-Complaints-tab"
+            id="v-pills-Suggestions-tab"
             to="/profile"
             onClick={props.onClickMe}
           >
-            Complaints
+            Suggestions
           </Link>
           <Link
             className="nav-link"

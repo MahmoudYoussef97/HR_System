@@ -15,6 +15,8 @@ import {
 import "./App.css";
 import Particles from "react-particles-js";
 import { loginUser } from "./services/loginServices";
+import { getSuggestions } from "./services/suggestionServices";
+import { getReports } from "./services/reportServices";
 import { isError } from "util";
 
 class App extends Component {
@@ -25,6 +27,8 @@ class App extends Component {
       section: "Employee"
     },
     data: [],
+    suggestions: [],
+    reports: [],
     employee: {
       name: "",
       email: "",
@@ -77,10 +81,18 @@ class App extends Component {
         const { data } = await getUsers(jwt);
         this.setState({ data });
         console.log(this.state.data);
-      } else if (user.role === "Manager" || user.role === "HR") {
+      } else if (user.role === "Manager") {
         const { data } = await getEmployees(jwt, user.role);
         this.setState({ data });
-        console.log(data);
+        const suggestions = await getSuggestions(jwt);
+        console.log(suggestions.data);
+        this.setState({ suggestions: suggestions.data });
+        const reports = await getReports(jwt);
+        console.log(reports.data);
+        this.setState({ reports: reports.data });
+      } else if (user.role === "HR") {
+        const { data } = await getEmployees(jwt, user.role);
+        this.setState({ data });
       }
     } catch (ex) {}
   }
@@ -251,6 +263,8 @@ class App extends Component {
                       bodyInfo={this.state.bodyData}
                       user={this.state.user}
                       jwt={this.state.jwt}
+                      suggestions={this.state.suggestions}
+                      reports={this.state.reports}
                       {...props}
                     />{" "}
                   </div>{" "}
