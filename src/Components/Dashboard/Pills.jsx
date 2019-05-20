@@ -54,26 +54,15 @@ const Pills = props => {
           role="tablist"
           aria-orientation="vertical"
         >
-          {userRole != "Employee" && (
-            <Link
-              className="nav-link"
-              id="v-pills-Employee-tab"
-              to="/profile"
-              onClick={props.onClickMe}
-            >
-              Employee
-            </Link>
-          )}
-          {userRole == "Employee" && (
-            <Link
-              className="nav-link"
-              id="v-pills-Task-tab"
-              to={`/Tasks/${props.user._id}`}
-              onClick={props.onClickMe}
-            >
-              Tasks
-            </Link>
-          )}
+          <Link
+            className="nav-link"
+            id="v-pills-Employee-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Employee
+          </Link>
+
           <Link
             className="nav-link"
             id="v-pills-Analysis-tab"
@@ -138,6 +127,31 @@ const Pills = props => {
             onClick={props.onClickMe}
           >
             Reports
+          </Link>
+        </div>
+      )}
+      {userRole === "Employee" && (
+        <div
+          className="nav flex-column nav-pills"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
+        >
+          <Link
+            className="nav-link"
+            id="v-pills-Your Information-tab"
+            to="/profile"
+            onClick={props.onClickMe}
+          >
+            Your Information
+          </Link>
+          <Link
+            className="nav-link"
+            id="v-pills-Your Tasks-tab"
+            to={`/Tasks/${props.user._id}`}
+            onClick={props.onClickMe}
+          >
+            Your Tasks
           </Link>
         </div>
       )}
